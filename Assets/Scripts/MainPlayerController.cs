@@ -12,15 +12,12 @@ public class MainPlayerController : MonoBehaviour
     private float m_timeCounter = 0.0f;
     
     [SerializeField] private Text m_GameTimer;
-
     [SerializeField] private Text m_CountDown;
-
     [SerializeField] private GameObject m_Aim;
-
     [SerializeField] private GameObject m_bullet;
-    
     [SerializeField] private float m_forcePower = 10f;
-    
+    private AudioSource m_shooting;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,9 +50,9 @@ public class MainPlayerController : MonoBehaviour
 
         if (Input.anyKeyDown)
         {
+            GetComponent<AudioSource>().Play();
             GameObject bulletRef = Instantiate(m_bullet, transform.position, Quaternion.identity, transform);
             Destroy(bulletRef, 5f);
-
             bulletRef.GetComponent<Rigidbody>().AddForce(m_Aim.transform.forward * m_forcePower);
         }
     }

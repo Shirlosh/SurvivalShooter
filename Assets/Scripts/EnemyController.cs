@@ -5,14 +5,15 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     public LevelManager p_LevelManagerRef;
-
     public float p_speed = 1f;
-
     public int m_targetPos = 1;
+
+    private Animation m_anim;
     // Start is called before the first frame update
     void Start()
     {
-        DeclareNewTarget();
+        m_anim = GetComponent<Animation>();
+        //DeclareNewTarget();
     }
 
     // Update is called once per frame
@@ -23,7 +24,7 @@ public class EnemyController : MonoBehaviour
         
         if (Vector3.Distance(transform.position , p_LevelManagerRef.m_walkThrogh[m_targetPos].transform.position) < 0.5f)
         {
-            DeclareNewTarget();
+            //DeclareNewTarget();
         }
     }
 
@@ -36,7 +37,14 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.name.ToLower().Contains("bullet"))
         {
-          Destroy(gameObject);  
+            m_anim.Play("Death");
+            StartCoroutine(DestroyTimer());
         }
+    }
+    
+    IEnumerator DestroyTimer()
+    {
+        yield return new WaitForSeconds(m_anim["Death"].length);
+        Destroy(gameObject);
     }
 }
