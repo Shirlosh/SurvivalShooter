@@ -9,6 +9,7 @@ public class EnemyController : MonoBehaviour
     private Vector3 m_target; 
     private Animation m_anim;
     private bool m_isAlive = true;
+    private int m_health;
     
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,7 @@ public class EnemyController : MonoBehaviour
         int spawnIndex = (int) Random.Range(0f,(float)p_LevelManagerRef.m_spawnPoints.Length);
         transform.position = p_LevelManagerRef.m_spawnPoints[0].transform.position;
         m_target = new Vector3(camera.position.x, 0, camera.position.z);
+        m_health = (int) Random.Range(1f, 4f);
         transform.LookAt(camera);
     }
 
@@ -42,7 +44,11 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.name.ToLower().Contains("bullet"))
         {
-            StartCoroutine(Die());
+            m_health--;
+            if (m_health == 0)
+            {
+                StartCoroutine(Die());
+            }
         }
     }
     
