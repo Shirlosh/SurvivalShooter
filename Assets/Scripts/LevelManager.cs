@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> m_Enemies;
 
-    [SerializeField] public GameObject[] m_walkThrogh;
+    [SerializeField] public GameObject[] m_spawnPoints;
 
     [SerializeField] private int m_ontensityLevel = 1;
 
@@ -34,7 +34,7 @@ public class LevelManager : MonoBehaviour
             }
 
            GameObject currentEnemy =  Instantiate(m_EnemyRef,
-                m_walkThrogh[((int) Random.Range(0f, (float) m_walkThrogh.Length))].transform.position,
+               m_spawnPoints[((int) Random.Range(0f, (float) m_spawnPoints.Length))].transform.position,
                 Quaternion.identity, transform);
            
            m_Enemies.Add(currentEnemy);
