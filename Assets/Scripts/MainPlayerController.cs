@@ -17,6 +17,7 @@ public class MainPlayerController : MonoBehaviour
     [SerializeField] private GameObject m_bullet;
     [SerializeField] private float m_forcePower = 10f;
     private AudioSource m_shooting;
+    private float m_health = 100f;
 
     // Start is called before the first frame update
     void Start()
@@ -56,4 +57,16 @@ public class MainPlayerController : MonoBehaviour
             bulletRef.GetComponent<Rigidbody>().AddForce(m_Aim.transform.forward * m_forcePower);
         }
     }
+
+    public void TakeDamage()
+    {
+        m_health -= 0.1f;
+        Debug.Log(m_health);
+        if (m_health <= 0f)
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+
+
 }

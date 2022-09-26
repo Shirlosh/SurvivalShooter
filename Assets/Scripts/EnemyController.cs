@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -63,10 +62,12 @@ public class EnemyController : MonoBehaviour
         m_anim.Play("Death");
         yield return new WaitForSeconds(m_anim["Death"].length);
         Destroy(gameObject);
+        p_LevelManagerRef.incScore();
     }
 
     void Attack()
     {
+        GameObject.Find("Player").GetComponent<MainPlayerController>().TakeDamage();
         m_anim.Play("Attack1");
     }
 }

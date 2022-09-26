@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class LevelManager : MonoBehaviour
 {
@@ -11,7 +13,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] public GameObject[] m_spawnPoints;
 
     [SerializeField] private int m_ontensityLevel = 1;
+    [SerializeField] private Text m_KillsCounterText;
 
+    public MainPlayerController p_MainPlayerController;
+    private int m_KillsCounter = 0;
+
+    
     private int m_enemyCounter = 0;
     // Start is called before the first frame update
     void Start()
@@ -42,5 +49,11 @@ public class LevelManager : MonoBehaviour
            currentEnemy.GetComponent<EnemyController>().p_LevelManagerRef = this;
            currentEnemy.GetComponent<EnemyController>().p_speed = Random.Range(1f, 5f);
         }
+    }
+
+    public void incScore()
+    {
+        m_KillsCounter++;
+        m_KillsCounterText.text = "" + m_KillsCounter;
     }
 }
