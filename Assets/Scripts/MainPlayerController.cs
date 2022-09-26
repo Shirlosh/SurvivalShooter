@@ -18,10 +18,14 @@ public class MainPlayerController : MonoBehaviour
     [SerializeField] private float m_forcePower = 10f;
     private AudioSource m_shooting;
     private float m_health = 100f;
+    [SerializeField] private ProgressBar m_healthPB;
+    [SerializeField] private ProgressBar m_AmmoPB;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_healthPB.BarValue = 100f;
+        m_AmmoPB.BarValue = 100f;
         m_Aim.SetActive(false);
         StartCoroutine(countDown(3.0f));
     }
@@ -51,17 +55,24 @@ public class MainPlayerController : MonoBehaviour
 
         if (Input.anyKeyDown)
         {
-            GetComponent<AudioSource>().Play();
-            GameObject bulletRef = Instantiate(m_bullet, transform.position, Quaternion.identity, transform);
-            Destroy(bulletRef, 5f);
-            bulletRef.GetComponent<Rigidbody>().AddForce(m_Aim.transform.forward * m_forcePower);
+            Shoot();
         }
     }
 
+
+    private void Shoot()
+    {
+        GetComponent<AudioSource>().Play();
+        GameObject bulletRef = Instantiate(m_bullet, transform.position, Quaternion.identity, transform);
+        Destroy(bulletRef, 5f);
+        bulletRef.GetComponent<Rigidbody>().AddForce(m_Aim.transform.forward * m_forcePower);
+        m_AmmoPB.BarValue -= 10;
+    }
+    
     public void TakeDamage()
     {
-        m_health -= 0.1f;
-        Debug.Log(m_health);
+        m_health -= 0.1f;   
+        m_healthPB.BarValue = m_health;
         if (m_health <= 0f)
         {
             SceneManager.LoadScene(0);

@@ -14,12 +14,9 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private int m_ontensityLevel = 1;
     [SerializeField] private Text m_KillsCounterText;
-
-    public MainPlayerController p_MainPlayerController;
     private int m_KillsCounter = 0;
-
-    
     private int m_enemyCounter = 0;
+    
     // Start is called before the first frame update
     void Start()
     {
