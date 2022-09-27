@@ -20,7 +20,7 @@ public class MainMenuController : MonoBehaviour
              {
                  if (hit.collider.gameObject.name.ToLower().Contains("top"))
                  {
-                     
+                     Debug.Log("top10");
                  }
                  else
                  {

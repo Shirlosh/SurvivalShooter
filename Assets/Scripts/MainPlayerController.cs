@@ -20,6 +20,7 @@ public class MainPlayerController : MonoBehaviour
     private float m_health = 100f;
     [SerializeField] private ProgressBar m_healthPB;
     [SerializeField] private ProgressBar m_AmmoPB;
+    public LevelManager p_LevelManagerRef;
 
     // Start is called before the first frame update
     void Start()
@@ -82,7 +83,7 @@ public class MainPlayerController : MonoBehaviour
         {
             AudioSource soundDeath = GetComponents<AudioSource>()[2];
             soundDeath.Play();
-            SceneManager.LoadScene(0);
+            p_LevelManagerRef.EndGame();
         }
     }
 }

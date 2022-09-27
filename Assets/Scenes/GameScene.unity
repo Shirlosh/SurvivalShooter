@@ -1087,6 +1087,7 @@ MonoBehaviour:
   m_forcePower: 1000
   m_healthPB: {fileID: 1143157255}
   m_AmmoPB: {fileID: 467255353}
+  p_LevelManagerRef: {fileID: 1218474529}
 --- !u!82 &907292810
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1856,7 +1857,8 @@ MonoBehaviour:
   - {fileID: 1830396820}
   - {fileID: 1157203038}
   m_ontensityLevel: 1
-  m_KillsCounterText: {fileID: 1555056190}
+  m_scoreText: {fileID: 1555056190}
+  m_gameOverScreen: {fileID: 0}
 --- !u!4 &1218474530
 Transform:
   m_ObjectHideFlags: 0
@@ -2233,7 +2235,7 @@ GameObject:
   - component: {fileID: 1555056191}
   - component: {fileID: 1555056190}
   m_Layer: 5
-  m_Name: Kills Counter
+  m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

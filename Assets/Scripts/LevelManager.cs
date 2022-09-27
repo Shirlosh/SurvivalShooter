@@ -1,22 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject m_EnemyRef;
-
     [SerializeField] private List<GameObject> m_Enemies;
-
     [SerializeField] public GameObject[] m_spawnPoints;
-
     [SerializeField] private int m_ontensityLevel = 1;
-    [SerializeField] private Text m_KillsCounterText;
-    private int m_KillsCounter = 0;
+    [SerializeField] private Text m_scoreText;
+    private int m_score = 0;
     private int m_enemyCounter = 0;
-    
+    private bool m_gameOver = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +26,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     IEnumerator EnemyCreator()
     {
-        while (true)
+        while (!m_gameOver)
         {
             yield return new WaitForSeconds((1f*(6/m_ontensityLevel)));
             m_enemyCounter++;
@@ -50,7 +49,13 @@ public class LevelManager : MonoBehaviour
 
     public void incScore()
     {
-        m_KillsCounter++;
-        m_KillsCounterText.text = "" + m_KillsCounter;
+        m_score++;
+        m_scoreText.text = "" + m_score;
+    }
+
+    public void EndGame()
+    {
+        CrossSceneInformation.Score = m_score;
+        SceneManager.LoadScene(2);
     }
 }
