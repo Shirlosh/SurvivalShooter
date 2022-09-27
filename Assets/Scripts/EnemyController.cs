@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour
         m_anim = GetComponent<Animation>();
         Transform camera = Camera.main.transform;
         int spawnIndex = (int) Random.Range(0f,(float)p_LevelManagerRef.m_spawnPoints.Length);
-        transform.position = p_LevelManagerRef.m_spawnPoints[0].transform.position;
+        transform.position = p_LevelManagerRef.m_spawnPoints[spawnIndex].transform.position;
         m_target = new Vector3(camera.position.x, 0, camera.position.z);
         m_health = (int) Random.Range(1f, 4f);
         transform.LookAt(camera);
@@ -43,6 +43,7 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.name.ToLower().Contains("bullet"))
         {
+            GetComponents<AudioSource>()[0].Play();
             m_health--;
             if (m_health == 0)
             {
@@ -55,6 +56,7 @@ public class EnemyController : MonoBehaviour
     {
         m_isAlive = false;
         m_anim.Stop();
+        GetComponents<AudioSource>()[1].Play();
         while (m_anim.isPlaying)
         {
             

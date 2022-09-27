@@ -62,7 +62,7 @@ public class MainPlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        GetComponent<AudioSource>().Play();
+        GetComponents<AudioSource>()[0].Play();
         GameObject bulletRef = Instantiate(m_bullet, transform.position, Quaternion.identity, transform);
         Destroy(bulletRef, 5f);
         bulletRef.GetComponent<Rigidbody>().AddForce(m_Aim.transform.forward * m_forcePower);
@@ -71,13 +71,18 @@ public class MainPlayerController : MonoBehaviour
     
     public void TakeDamage()
     {
+        AudioSource soundHit = GetComponents<AudioSource>()[1];
+        if (soundHit.isPlaying == false)
+        {
+            soundHit.Play();
+        }
         m_health -= 0.1f;   
         m_healthPB.BarValue = m_health;
         if (m_health <= 0f)
         {
+            AudioSource soundDeath = GetComponents<AudioSource>()[2];
+            soundDeath.Play();
             SceneManager.LoadScene(0);
         }
     }
-
-
 }
