@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ using UnityEngine.SceneManagement;
 public class MainPlayerController : MonoBehaviour
 {
     private bool m_isGameStarted = false;
-    
+
     private float m_timeCounter = 0.0f;
-    
+
     [SerializeField] private Text m_GameTimer;
     [SerializeField] private Text m_CountDown;
     [SerializeField] private GameObject m_Aim;
@@ -21,6 +22,9 @@ public class MainPlayerController : MonoBehaviour
     [SerializeField] private ProgressBar m_healthPB;
     [SerializeField] private ProgressBar m_AmmoPB;
     public LevelManager p_LevelManagerRef;
+
+    private bool reloading = false;
+    private bool canShoot = true;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +41,7 @@ public class MainPlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(1.0f);
             countDownAmount -= 1.0f;
-            m_CountDown.text = "" + (int) countDownAmount;
+            m_CountDown.text = "" + (int)countDownAmount;
         }
 
         m_isGameStarted = true;
@@ -51,12 +55,17 @@ public class MainPlayerController : MonoBehaviour
         if (m_isGameStarted)
         {
             m_timeCounter += Time.deltaTime;
-            m_GameTimer.text = "" + m_timeCounter + " s";
+            // TimeSpan timeSpan = TimeSpan.FromSeconds(m_timeCounter);
+            // m_GameTimer.text = "Time: " + timeSpan.ToString("mm:ss");
+            m_GameTimer.text = "" + (int)Math.Round(m_timeCounter) + " s";
         }
 
         if (Input.anyKeyDown)
         {
-            Shoot();
+            if (canShoot)
+            {
+                Shoot();
+            }
         }
     }
 
@@ -65,11 +74,27 @@ public class MainPlayerController : MonoBehaviour
     {
         GetComponents<AudioSource>()[0].Play();
         GameObject bulletRef = Instantiate(m_bullet, transform.position, Quaternion.identity, transform);
-        Destroy(bulletRef, 5f);
+        Destroy(bulletRef, 2f);
         bulletRef.GetComponent<Rigidbody>().AddForce(m_Aim.transform.forward * m_forcePower);
         m_AmmoPB.BarValue -= 10;
+        if (m_AmmoPB.BarValue == 0f)
+        {
+            StartCoroutine(Reload());
+        }
     }
-    
+
+    private IEnumerator Reload()
+    {
+        canShoot = false;
+        reloading = true;
+        AudioSource source = GetComponents<AudioSource>()[3];
+        source.Play();
+        yield return new WaitForSeconds(3f);
+        m_AmmoPB.BarValue = 100f;
+        canShoot = true;
+        reloading = false;
+    }
+
     public void TakeDamage()
     {
         AudioSource soundHit = GetComponents<AudioSource>()[1];
@@ -77,8 +102,9 @@ public class MainPlayerController : MonoBehaviour
         {
             soundHit.Play();
         }
-        m_health -= 0.1f;   
-        m_healthPB.BarValue = m_health;
+
+        m_health -= 0.1f;
+        m_healthPB.BarValue = (int)Math.Round(m_health);
         if (m_health <= 0f)
         {
             AudioSource soundDeath = GetComponents<AudioSource>()[2];
