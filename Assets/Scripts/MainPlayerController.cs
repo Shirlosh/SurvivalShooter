@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 public class MainPlayerController : MonoBehaviour
 {
     private bool m_isGameStarted = false;
-    
+
     private float m_timeCounter = 0.0f;
-    
+
     [SerializeField] private Text m_GameTimer;
     [SerializeField] private Text m_CountDown;
     [SerializeField] private GameObject m_Aim;
@@ -21,6 +21,9 @@ public class MainPlayerController : MonoBehaviour
     [SerializeField] private ProgressBar m_healthPB;
     [SerializeField] private ProgressBar m_AmmoPB;
     public LevelManager p_LevelManagerRef;
+
+    private bool reloading = false;
+    private bool canShoot = true;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +40,7 @@ public class MainPlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(1.0f);
             countDownAmount -= 1.0f;
-            m_CountDown.text = "" + (int) countDownAmount;
+            m_CountDown.text = "" + (int)countDownAmount;
         }
 
         m_isGameStarted = true;
@@ -56,7 +59,15 @@ public class MainPlayerController : MonoBehaviour
 
         if (Input.anyKeyDown)
         {
-            Shoot();
+            canShoot = m_AmmoPB.BarValue != 0f;
+            if (canShoot)
+            {
+                Shoot();
+            }
+            else if (!reloading)
+            {
+                StartCoroutine(Reload());
+            }
         }
     }
 
@@ -69,7 +80,19 @@ public class MainPlayerController : MonoBehaviour
         bulletRef.GetComponent<Rigidbody>().AddForce(m_Aim.transform.forward * m_forcePower);
         m_AmmoPB.BarValue -= 10;
     }
-    
+
+    private IEnumerator Reload()
+    {
+        canShoot = false;
+        reloading = true;
+        AudioSource source = GetComponents<AudioSource>()[3];
+        source.Play();
+        yield return new WaitForSeconds(3f);
+        m_AmmoPB.BarValue = 100f;
+        canShoot = true;
+        reloading = false;
+    }
+
     public void TakeDamage()
     {
         AudioSource soundHit = GetComponents<AudioSource>()[1];
@@ -77,7 +100,8 @@ public class MainPlayerController : MonoBehaviour
         {
             soundHit.Play();
         }
-        m_health -= 0.1f;   
+
+        m_health -= 0.1f;
         m_healthPB.BarValue = m_health;
         if (m_health <= 0f)
         {
