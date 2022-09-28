@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,19 +55,16 @@ public class MainPlayerController : MonoBehaviour
         if (m_isGameStarted)
         {
             m_timeCounter += Time.deltaTime;
-            m_GameTimer.text = "" + m_timeCounter + " s";
+            // TimeSpan timeSpan = TimeSpan.FromSeconds(m_timeCounter);
+            // m_GameTimer.text = "Time: " + timeSpan.ToString("mm:ss");
+            m_GameTimer.text = "" + (int)Math.Round(m_timeCounter) + " s";
         }
 
         if (Input.anyKeyDown)
         {
-            canShoot = m_AmmoPB.BarValue != 0f;
             if (canShoot)
             {
                 Shoot();
-            }
-            else if (!reloading)
-            {
-                StartCoroutine(Reload());
             }
         }
     }
@@ -79,6 +77,10 @@ public class MainPlayerController : MonoBehaviour
         Destroy(bulletRef, 2f);
         bulletRef.GetComponent<Rigidbody>().AddForce(m_Aim.transform.forward * m_forcePower);
         m_AmmoPB.BarValue -= 10;
+        if (m_AmmoPB.BarValue == 0f)
+        {
+            StartCoroutine(Reload());
+        }
     }
 
     private IEnumerator Reload()
@@ -102,7 +104,7 @@ public class MainPlayerController : MonoBehaviour
         }
 
         m_health -= 0.1f;
-        m_healthPB.BarValue = m_health;
+        m_healthPB.BarValue = (int)Math.Round(m_health);
         if (m_health <= 0f)
         {
             AudioSource soundDeath = GetComponents<AudioSource>()[2];
