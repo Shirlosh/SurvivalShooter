@@ -76,7 +76,7 @@ public class MainPlayerController : MonoBehaviour
     {
         GetComponents<AudioSource>()[0].Play();
         GameObject bulletRef = Instantiate(m_bullet, transform.position, Quaternion.identity, transform);
-        Destroy(bulletRef, 5f);
+        Destroy(bulletRef, 2f);
         bulletRef.GetComponent<Rigidbody>().AddForce(m_Aim.transform.forward * m_forcePower);
         m_AmmoPB.BarValue -= 10;
     }
