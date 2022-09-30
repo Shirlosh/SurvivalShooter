@@ -53,8 +53,9 @@ public class LevelManager : MonoBehaviour
         m_scoreText.text = "" + m_score;
     }
 
-    public void EndGame()
+    public void EndGame(float timePlayed)
     {
+        HighscoreTable.AddHighScoreEntry(m_score, timePlayed);
         CrossSceneInformation.Score = m_score;
         SceneManager.LoadScene(2);
     }

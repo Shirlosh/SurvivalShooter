@@ -17,8 +17,10 @@ public class MainPlayerController : MonoBehaviour
     [SerializeField] private GameObject m_Aim;
     [SerializeField] private GameObject m_bullet;
     [SerializeField] private float m_forcePower = 10f;
+    [SerializeField] private AudioSource music;
     private AudioSource m_shooting;
     private float m_health = 100f;
+    private bool isDead = false;
     [SerializeField] private ProgressBar m_healthPB;
     [SerializeField] private ProgressBar m_AmmoPB;
     public LevelManager p_LevelManagerRef;
@@ -29,6 +31,10 @@ public class MainPlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (CrossSceneInformation.Music == false)
+        {
+            music.Stop();
+        }
         m_healthPB.BarValue = 100f;
         m_AmmoPB.BarValue = 100f;
         m_Aim.SetActive(false);
@@ -105,11 +111,12 @@ public class MainPlayerController : MonoBehaviour
 
         m_health -= 0.1f;
         m_healthPB.BarValue = (int)Math.Round(m_health);
-        if (m_health <= 0f)
+        if (!isDead && m_health <= 0f)
         {
+            isDead = true;
             AudioSource soundDeath = GetComponents<AudioSource>()[2];
             soundDeath.Play();
-            p_LevelManagerRef.EndGame();
+            p_LevelManagerRef.EndGame(m_timeCounter);
         }
     }
 }
