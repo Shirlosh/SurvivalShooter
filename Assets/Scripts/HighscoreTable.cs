@@ -57,7 +57,7 @@ public class HighscoreTable : MonoBehaviour
 
         entryTransform.Find("RankText").GetComponent<Text>().text = rankString;
         entryTransform.Find("ScoreText").GetComponent<Text>().text = highScoreEntry.score.ToString();
-        entryTransform.Find("TimeText").GetComponent<Text>().text = (int)Math.Round(highScoreEntry.timePlayed) +"s";
+        entryTransform.Find("TimeText").GetComponent<Text>().text = (int)Math.Round(highScoreEntry.timePlayed) +" s";
 
         transformList.Add(entryTransform);
     }
