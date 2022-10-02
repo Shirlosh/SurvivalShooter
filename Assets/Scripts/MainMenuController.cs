@@ -12,19 +12,8 @@ public class MainMenuController : MonoBehaviour
     {
         mainMenuButtons.SetActive(true);
         topScoreTable.SetActive(false);
-
         topScoreTableIsActive = false;
-        if (CrossSceneInformation.Music)
-        {
-            if (CrossSceneInformation.Music.Equals(false))
-            {
-                music.Stop();
-            }
-        }
-        else
-        {
-            CrossSceneInformation.Music = music.isPlaying;
-        }
+        CrossSceneInformation.Music = music.isPlaying;
     }
 
     // Update is called once per frame
