@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,7 +14,17 @@ public class MainMenuController : MonoBehaviour
         topScoreTable.SetActive(false);
 
         topScoreTableIsActive = false;
-        CrossSceneInformation.Music = music.isPlaying;
+        if (CrossSceneInformation.Music)
+        {
+            if (CrossSceneInformation.Music.Equals(false))
+            {
+                music.Stop();
+            }
+        }
+        else
+        {
+            CrossSceneInformation.Music = music.isPlaying;
+        }
     }
 
     // Update is called once per frame
