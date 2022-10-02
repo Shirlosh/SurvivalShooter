@@ -55,8 +55,8 @@ public class LevelManager : MonoBehaviour
 
     public void EndGame(float timePlayed)
     {
-        HighscoreTable.AddHighScoreEntry(m_score, timePlayed);
         CrossSceneInformation.Score = m_score;
+        CrossSceneInformation.TimePlayed = timePlayed;
         SceneManager.LoadScene(2);
     }
 }

@@ -33,9 +33,12 @@ public class MainPlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (CrossSceneInformation.Music == false)
+        if (CrossSceneInformation.Music 
+        == false)
         {
+        
             music.Stop();
+            
         }
         m_healthPB.BarValue = 100f;
         m_AmmoPB.BarValue = 100f;

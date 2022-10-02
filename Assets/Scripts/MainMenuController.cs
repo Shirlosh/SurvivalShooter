@@ -8,10 +8,12 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private GameObject topScoreTable;
     [SerializeField] private AudioSource music;
     private bool topScoreTableIsActive;
+
     private void Start()
     {
         mainMenuButtons.SetActive(true);
         topScoreTable.SetActive(false);
+
         topScoreTableIsActive = false;
         CrossSceneInformation.Music = music.isPlaying;
     }
@@ -46,6 +48,7 @@ public class MainMenuController : MonoBehaviour
                     {
                         music.Play();
                     }
+
                     CrossSceneInformation.Music = music.isPlaying;
                 }
                 else if (hit.collider.gameObject.name.Equals("Exit"))

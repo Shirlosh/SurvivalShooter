@@ -10,6 +10,7 @@ public class GameOverController : MonoBehaviour
         private void Start()
         { 
                 pointsText.text = CrossSceneInformation.Score + " POINTS";
+                HighscoreTable.AddHighScoreEntry(CrossSceneInformation.Score, CrossSceneInformation.TimePlayed);
         }
 
         void Update()
@@ -18,7 +19,6 @@ public class GameOverController : MonoBehaviour
                 {
                         RaycastHit hit;
                         Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 4f, Screen.height / 2f, 0f));
-                        Debug.Log("hit");
                         if (Physics.Raycast(ray, out hit))
                         {
                                 if (hit.collider.gameObject.name.ToLower().Contains("restart"))

@@ -1504,7 +1504,6 @@ MonoBehaviour:
   mainMenuButtons: {fileID: 983955286}
   topScoreTable: {fileID: 208840276}
   music: {fileID: 1877934459}
-  topScoreExitButton: {fileID: 1284500571}
 --- !u!1001 &916100023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1698,7 +1697,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959308587}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!114 &959308590
 MonoBehaviour:
   m_ObjectHideFlags: 0
