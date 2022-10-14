@@ -20,9 +20,10 @@ public class HighscoreTable : MonoBehaviour
 
         highScores.highScoreEntries.Sort((h1, h2) => h2.score.CompareTo(h1.score));
         highScoreEntryTransformList = new List<Transform>();
-        foreach (var highScoreEntry in highScores.highScoreEntries)
+
+        for (int i = 0; i < Math.Min(10, highScores.highScoreEntries.Count); i++)
         {
-            CreateHighScoreEntryTransform(highScoreEntry, entryContainer, highScoreEntryTransformList);
+            CreateHighScoreEntryTransform(highScores.highScoreEntries[i], entryContainer, highScoreEntryTransformList);
         }
     }
 
@@ -56,7 +57,7 @@ public class HighscoreTable : MonoBehaviour
 
         entryTransform.Find("RankText").GetComponent<Text>().text = rankString;
         entryTransform.Find("ScoreText").GetComponent<Text>().text = highScoreEntry.score.ToString();
-        entryTransform.Find("TimeText").GetComponent<Text>().text = (int)Math.Round(highScoreEntry.timePlayed) +" s";
+        entryTransform.Find("TimeText").GetComponent<Text>().text = (int)Math.Round(highScoreEntry.timePlayed) + " s";
 
         transformList.Add(entryTransform);
     }
